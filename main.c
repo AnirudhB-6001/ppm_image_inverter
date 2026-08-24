@@ -26,7 +26,7 @@ int main(void)
     assert(pixels[4] == 255);
     assert(pixels[5] == 255);
 
-    FILE *input = fopen("sample.txt", "r");
+    FILE *input = fopen("sample.ppm", "r");
 
     if (input == NULL)
     {
@@ -35,14 +35,31 @@ int main(void)
     }
 
     int first_character = fgetc(input);
+    int second_character = fgetc(input);
+    int third_character = fgetc(input);
 
-    if (first_character == EOF)
+    if (first_character == EOF || second_character == EOF)
     {
         printf("Could not read file\n");
         fclose(input);
         return 1;
     }
-    printf("%c\n", first_character);
+
+    if (first_character == EOF || second_character == EOF || third_character == EOF)
+    {
+        printf("Invalid PPM magic number\n");
+        fclose(input);
+        return 1;
+    }
+
+    if (third_character != '\n')
+    {
+        printf("Invalid PPM header\n");
+        fclose(input);
+        return 1;
+    }
+    printf("%c%c\n", first_character, second_character);
+
     fclose(input);
 
     return 0;
