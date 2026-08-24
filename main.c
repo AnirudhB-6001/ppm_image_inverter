@@ -26,5 +26,24 @@ int main(void)
     assert(pixels[4] == 255);
     assert(pixels[5] == 255);
 
+    FILE *input = fopen("sample.txt", "r");
+
+    if (input == NULL)
+    {
+        printf("Could not open file\n");
+        return 1;
+    }
+
+    int first_character = fgetc(input);
+
+    if (first_character == EOF)
+    {
+        printf("Could not read file\n");
+        fclose(input);
+        return 1;
+    }
+    printf("%c\n", first_character);
+    fclose(input);
+
     return 0;
 }
